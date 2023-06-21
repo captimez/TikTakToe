@@ -1,10 +1,5 @@
 from array import *
-#*
-# @class
-# 
-# 
-# 
-#*#
+
 
 class tiktaktoe:
     global background
@@ -45,13 +40,13 @@ class tiktaktoe:
 
     def get_winner(self):
         for i in range(3):
-            # check rows
+            # prüfe zeile
             if self.gameGrid[i][0] == self.gameGrid[i][1] == self.gameGrid[i][2] != self.background:
                 return self.gameGrid[i][0]
-            # check columns
+            # prüfe spalte
             if self.gameGrid[0][i] == self.gameGrid[1][i] == self.gameGrid[2][i] != self.background:
                 return self.gameGrid[0][i]
-        # check diagonals
+        # prüfe diagonalen
         if self.gameGrid[0][0] == self.gameGrid[1][1] == self.gameGrid[2][2] != self.background:
             return self.gameGrid[0][0]
         if self.gameGrid[0][2] == self.gameGrid[1][1] == self.gameGrid[2][0] != self.background:
@@ -63,7 +58,8 @@ class tiktaktoe:
     async def get_move(self, player):
         await player.make_move()
         return player.move
-
+    
+    #Ausgabe des Spielfeldes
     def print_grid(self):
         count = 0
         row1= ""
