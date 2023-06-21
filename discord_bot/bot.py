@@ -7,6 +7,7 @@ from tiktaktoe_logic import player, tiktaktoe
 global  player1, player2
 tiktaktoe_game = None
 
+#sendet eine Nachricht an den Discord channel in dem der Bot gerufen wurde
 async def send_message(message, user_message, isPrivate):
     
     try:
@@ -16,6 +17,8 @@ async def send_message(message, user_message, isPrivate):
     except  Exception as e:
         print(e, user_message)
 
+#führt den Bot aus
+#handelt client events
 def run_discord_bot():
     TOKEN = 'MTEwMzgxMzMxMTgwOTcyMDQzMQ.GHhSOh.74eGWPxRXSpN7HJ4h7ghPAqW6KsUAYqYu4mhVE'
     #intents = discord.Intents.all()
@@ -38,7 +41,8 @@ def run_discord_bot():
         print("message: " + user_message + "by:" + username)
         
         channel = message.channel
-
+        
+        #UNFINISHED
         if user_message.startswith('!intern'):
             spieler = user_message.split(' ')
             max_anzahl = (len(spieler)-1)/2
@@ -70,14 +74,14 @@ def run_discord_bot():
 
 
             def print_teams():
-                    teams = '__**Team CHAD:**__\n'
+                    teams = '__**Team 1:**__\n'
                     teams+= '\n'
                     
                     for i in team1:
                         teams += f'--{i.upper()}--\n'
 
                     teams+= '\n'
-                    teams += '__**Team :**__\n'
+                    teams += '__**Team 2:**__\n'
                     teams+= '\n'
 
                     for j in team2:
@@ -88,11 +92,12 @@ def run_discord_bot():
             await channel.send(print_teams())
 
 
-
+        #Bei eingabe "!tiktaktoe" wird das spiel gestartet
         if user_message.startswith('!tiktaktoe'):
             message_content = user_message.split(' ')
 
             if tiktaktoe_game == None:
+                #setzten der Spieler
                 player1 = player(':x:',message.author)
                 player2 = player(':o:',message.mentions[0])
                 tiktaktoe_game = tiktaktoe(player1,player2)
@@ -102,9 +107,14 @@ def run_discord_bot():
         else:
             await send_message(message, user_message, isPrivate=False)
 
+
     async def start_game():
         global channel, tiktaktoe_game
+
+        #return true, wenn der spieler an der reihe die nachricht sendet und die Werte gültig sind
+        #return false, wenn wenn die Werte ungültig sind
         def wait_for_move(player):
+            
             def check(message):
                 if message.author == tiktaktoe_game.currentPlayer.name:
                     try:
@@ -123,6 +133,8 @@ def run_discord_bot():
         await channel.send(f'Player2: {tiktaktoe_game.player2.name}, {tiktaktoe_game.player2.symbol}\n')
         await channel.send(tiktaktoe_game.print_grid())
 
+
+        #Game loop, läuft solange kein Spieler gewonnen hat
         while not tiktaktoe_game.game_over():
 
             #await channel.send(f'<@{tiktaktoe_game.currentPlayer.name}>, gib deine Koordinaten ein (z.B. "0 0" für das obere linke Feld):')

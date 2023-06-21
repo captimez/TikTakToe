@@ -112,7 +112,7 @@ class player:
        return self.previous_move != self.move
 
     async def make_move(self, row, col):
-        # TODO: Implement logic for making a move
+        
         if self.previous_move != (row,col):
             self.move= (row,col)
 
